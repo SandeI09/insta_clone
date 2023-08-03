@@ -1,0 +1,14 @@
+{% extends 'base_site.html' %}
+{% block content %}
+
+    <h2>Adding Post:</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form }}
+
+        <input type="submit" name="submit" id="" value="submit">
+    </form>    
+
+
+{% endblock content %}

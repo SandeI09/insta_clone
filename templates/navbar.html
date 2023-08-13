@@ -9,12 +9,25 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'post:home' %}">Home</a>
           </li>
+
+          
+          {% if not request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Log In</a>
+            <a class="nav-link" href="{% url 'user:signup' %}">Sign up</a>
           </li>
+
+          
           <li class="nav-item">
-            <a class="nav-link" href="#">Sign up</a>
+            <a class="nav-link" href="{% url 'user:login' %}">Log In</a>
           </li>
+          {% endif %}
+
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user:logout' %}">Log Out</a>
+          </li>
+          {% endif %}
+          
         </ul>
         <div class="d-flex" role="search">
           <a href="{% url 'post:add_post' %}" class="btn btn-outline-success">Create</a>

@@ -14,16 +14,49 @@
                     <div class="card-footer">
                         <span>Like : 1</span>
                         <span>Comment : 2</span>
-
+                        {% if request.user == post.user %}
                         <div class="float-end">
                             <a href="{% url 'post:edit_post' post.id %}" class="btn btn-info btn-xs text-white">Edit</a>
+                            <a data-postid="{{ post.id }}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+            </div>
+        </div>
         </div>
 
         <div class="col-sm-12 col-md-4 col-lg-4"></div>
     </div>
 
 {% endblock content %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript">
+        let modal = document.getElementById("deleteModal")
+        modal.addEventListener("show.bs.modal", function(evt)){
+            let btn = evt.relatedTarget;
+            let postid = btn.dataset.postid;
+        }
+</script>
+{% endblock script %}

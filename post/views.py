@@ -1,8 +1,9 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from post.models import Post
 from post.forms import PostForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -51,7 +52,9 @@ def edit_post(request, post_id):
 
 
 @login_required
-def delete_post(request, post_id):
-    post = get_object_or_404(post, id = post_id,user = request.user)
+def delete_post(request):
+    post_id = request.POST.get("post_id")
+    post = get_object_or_404(Post, id = post_id,user = request.user)
     post.delete()
+    messages.add_message(request, messages.INFO, "Your Post has been deleted!")
     return HttpResponseRedirect(reverse("post:home"))

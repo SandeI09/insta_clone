@@ -1,15 +1,14 @@
 from django.shortcuts import render, reverse
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from useraccount.forms import SignupForm
+from useraccount.forms import SignupForm, CustomLoginForm
 
 
 # Create your views here.
 
 def user_login(request):
-    form = AuthenticationForm(request.POST or None)
+    form = CustomLoginForm(request.POST or None)
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")

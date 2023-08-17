@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse, get_object_or_404
-from post.models import Post
+from post.models import Post, Like
 from post.forms import PostForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -58,3 +58,21 @@ def delete_post(request):
     post.delete()
     messages.add_message(request, messages.INFO, "Your Post has been deleted!")
     return HttpResponseRedirect(reverse("post:home"))
+
+
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    
+    like, created = Like.objects.get_or_create(
+        post=post, 
+        user=user, 
+        defaults={"is_liked":True}
+    )
+    if not created:
+        if like.is_liked:
+            like.is_liked = False
+        else:
+            like.is_liked = True
+        like.save()
+    return JsonResponse({"is_liked": like.is_liked, "like_count": post.like_count}, safe=False)

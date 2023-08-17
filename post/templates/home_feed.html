@@ -24,7 +24,7 @@
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>
                             <a data-postid="{{ post.id }}" data-bs-toggle="modal" data-bs-target="#deleteModal" class="text-decoration-none">
-                                <i class="fa-solid fa-trash text-danger"></i>
+                                <i class="fa-solid fa-trash text-danger dustbin"></i>
                             </a>
                         </div>
                         {% endif %}
@@ -33,10 +33,16 @@
                     </div>
                     <div class="card-footer">
                         <div class="ms-2 d-inline-block">
-                            <a href="" class="text-decoration-none text-danger"><i class="fa-regular fa-heart"></i></a>
+                            <a data-postid="{{post.id}}" href="{% url 'post:like_post' post.id %}" class="text-decoration-none text-black fs-5 like-post">
+                                <i class="fa-regular fa-heart"></i>
+                            </a>
+                            <span id="like-{{post.id}}">{{ post.like_count }}</span>
                         </div>
                         <div class="float-end me-2 d-inline-block">
-                            <a href="" class="text-decoration-none"><i class="fa-regular fa-comment"></i>&nbsp;Comment</a>
+                            <a href="" class="text-decoration-none">
+                                <i class="fa-regular fa-comment"></i>&nbsp;Comment
+                            </a>
+                            {{ post.comment_count }}
                         </div>
                         <!-- {% if request.user == post.user %}
                         <div class="float-end">
@@ -95,6 +101,24 @@
         delBtn.addEventListener("click", function(){
             let delForm = document.getElementById("del-form");
             delForm.submit();
+        })
+
+        $(".like-post").click(function(evt){
+            evt.preventDefault();
+            let url = $(this).attr('href');
+            let postid = $(this).data("postid");
+            $.ajax({
+                "url": url,
+                "method": "GET",
+                "dataType": "json",
+                success: function(res){
+                    console.log(res);
+                    $("#like-"+postid).html(res.like_count);
+                },
+                error: function(res){
+                    console.log(res);
+                }
+            });
         })
     </script>
 {% endblock script %}

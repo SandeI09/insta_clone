@@ -5,7 +5,7 @@
             <div class="card-body">
                 {% if users %}
                     {% for user in users %}
-                        <a href="">{{ user.username }}</a>
+                        <a href="{% url 'chat:message' user.username %}">{{ user.username }}</a>
                     {% endfor %}
                 {% else %}
                     <strong class="text-center">No users found</strong>
@@ -13,12 +13,21 @@
             </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6">
+            {% if not user_list %}
             <div class="card">
                 <div class="card-body">
                     {% if messages %}
                         {% for message in messages %}
-                            {{ message }}
+                            {% if message.from_user == request.user %}
+                            <div class="float-end text-primary">
+                                {{ message }}
+                            </div><br>
+                            {% else %}
+                            <div  class="">
+                                {{ message }}
+                            </div>
                             <br>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <strong>No message found with this user.</strong>
@@ -32,6 +41,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

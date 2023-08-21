@@ -24,6 +24,9 @@
 
           {% if request.user.is_authenticated %}
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'chat:user_list' %}">messager</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'user:logout' %}">Log Out</a>
           </li>
           {% endif %}

@@ -18,6 +18,7 @@
                     {% if messages %}
                         {% for message in messages %}
                             {{ message }}
+                            <br>
                         {% endfor %}
                     {% else %}
                         <strong>No message found with this user.</strong>
@@ -27,7 +28,7 @@
                     <form action="" method="post">
                         {% csrf_token %}
                         {{ form }}
-                        <input type="submit" name="Send" id="" class="btn btn-primary">
+                        <input type="submit" value="Send" id="" class="btn btn-primary">
                     </form>
                 </div>
             </div>

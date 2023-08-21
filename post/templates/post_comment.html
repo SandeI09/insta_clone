@@ -1,0 +1,41 @@
+{% extends 'base_site.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                {% if post.picture %}
+                <img src="{{ post.picture.url }}" alt="" class="w-100">
+                {% endif %}
+                {{ post.caption }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                {% if comments %}
+                {% for comment in comments %}
+                <div>
+                    <p class="fs-6">{{ comment.user.username }}</p>
+                    <p class="fs-6">{{ comment.text }}</p>
+                    <hr>
+                </div>
+                {% endfor %}
+                {% else %}
+                <strong class="text-center">No comments yet</strong>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {{ field }}
+                    {% endfor %}
+                    <input type="submit" name="" id="" value="Comment" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
